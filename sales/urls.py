@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import SalesView
+# from .views import SalesView
 
 urlpatterns = [
-    path("", SalesView.as_view()),
+    # path("", SalesView.as_view()),
 ]
