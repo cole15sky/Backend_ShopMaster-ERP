@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'customers',
     'analytics',
     'products',
+    "drf_spectacular",
        
 ]
 
@@ -139,7 +140,14 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'ShopMaster ERP API',
+    'DESCRIPTION': 'API documentation for the ShopMaster ERP system',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': True,
+}
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
