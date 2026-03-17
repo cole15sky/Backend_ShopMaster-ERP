@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'analytics',
     'products',
     "drf_spectacular",
+    'rest_framework_simplejwt',
        
 ]
 
