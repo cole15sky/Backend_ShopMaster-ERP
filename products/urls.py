@@ -5,7 +5,7 @@ from .views import BrandViewSet, CategoryViewSet, ProductViewSet, ProductVariant
 router = DefaultRouter()
 router.register("brands", BrandViewSet, basename="brand")
 router.register("categories", CategoryViewSet, basename="category")
-router.register("products", ProductViewSet, basename="product")
+router.register("", ProductViewSet, basename="product")
 router.register("variants", ProductVariantViewSet, basename="variant")
 router.register("stock_history", StockHistoryViewSet, basename="stock_history")
 

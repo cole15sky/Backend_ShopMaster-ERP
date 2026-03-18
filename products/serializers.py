@@ -56,5 +56,6 @@ class ProductSerializer(serializers.ModelSerializer):
 class StockHistorySerializer(serializers.Serializer):
     variant_id = serializers.IntegerField()
     history = serializers.ListField(
-        child=serializers.DictField(child=serializers.CharField())
-    )   
+        child=serializers.DictField(child=serializers.CharField()),
+        help_text="List of stock history records"
+    )

@@ -6,7 +6,6 @@ class UserRole(models.TextChoices):
     ADMIN = "ADMIN", "Admin"
     STAFF = "STAFF", "Staff"
     CUSTOMER = "CUSTOMER", "Customer"
-    
 class GenderType(models.TextChoices):
     MALE = "Male", "Male"
     FEMALE = "Female", "Female"
@@ -23,3 +22,22 @@ class SizeType(models.TextChoices):
 class ProductStatus(models.TextChoices):
     ACTIVE = "Active", "Active"
     INACTIVE = "Inactive", "Inactive"
+    
+class StockChangeType(models.TextChoices):
+    """
+    Used in StockHistory model
+    """
+
+    ADD = "ADD", "Add Stock"
+    REMOVE = "REMOVE", "Remove Stock"
+    SALE = "SALE", "Sale"
+    RETURN = "RETURN", "Return"
+    ADJUST = "ADJUST", "Manual Adjust"
+    
+class UnitType(models.TextChoices):
+    PIECE = "PCS", "Piece"
+    KG = "KG", "Kilogram"
+    GRAM = "G", "Gram"
+    LITER = "L", "Liter"
+    BOX = "BOX", "Box"
+    PACK = "PACK", "Pack"
