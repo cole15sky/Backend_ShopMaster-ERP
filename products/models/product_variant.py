@@ -1,13 +1,14 @@
 from django.db import models
 from .product import Product
 from utils.enum import SizeType
-
+from utils.enum import GenderType
 class ProductVariant(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="variants")
     size = models.CharField(max_length=5, choices=SizeType.choices, null=True, blank=True)
     color = models.CharField(max_length=50, null=True, blank=True)
     sku = models.CharField(max_length=100, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    gender = models.CharField(max_length=10, choices=GenderType.choices, default=GenderType.UNISEX)
     discount_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
