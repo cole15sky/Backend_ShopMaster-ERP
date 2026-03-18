@@ -52,3 +52,9 @@ class ProductSerializer(serializers.ModelSerializer):
             "updated_at",
             "variants",
         ]
+        
+class StockHistorySerializer(serializers.Serializer):
+    variant_id = serializers.IntegerField()
+    history = serializers.ListField(
+        child=serializers.DictField(child=serializers.CharField())
+    )   

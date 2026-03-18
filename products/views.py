@@ -27,3 +27,15 @@ class ProductVariantViewSet(viewsets.ModelViewSet):
     
     queryset = ProductVariant.objects.all()
     serializer_class = ProductVariantSerializer
+    
+
+class StockHistoryViewSet(viewsets.ViewSet):
+    @extend_schema(
+        request=None,
+        responses={200: "Stock history retrieved successfully"},
+        description="Retrieve stock history for a product variant"
+    )
+    @action(detail=False, methods=["get"], url_path="variant/(?P<variant_id>[^/.]+)/history")
+    def variant_history(self, request, variant_id=None):
+        # Placeholder implementation
+        return Response({"message": f"Stock history for variant {variant_id} retrieved successfully"}, status=status.HTTP_200_OK)
