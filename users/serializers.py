@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User
 from django.contrib.auth.password_validation import validate_password
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -44,3 +45,25 @@ class MeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "email", "full_name", "role", "phone", "position", "profile_pic"]
+        
+
+class RoleBasedTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """
+    Custom JWT serializer that validates role on login.
+    """
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        user = self.user
+
+        requested_role = self.context['request'].data.get("role")
+        if requested_role and user.role != requested_role:
+            raise serializers.ValidationError("Unauthorized role login.")
+
+        # Add user info in response
+        data.update({
+            "id": user.id,
+            "email": user.email,
+            "full_name": user.full_name,
+            "role": user.role,
+        })
+        return data

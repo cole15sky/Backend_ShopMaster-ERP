@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
-from .serializers import UserRegistrationSerializer, UserSerializer, MeSerializer
+from .serializers import UserRegistrationSerializer, UserSerializer, MeSerializer, RoleBasedTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import User
 
 # Custom Response
@@ -85,3 +86,5 @@ class MeView(APIView):
     def get(self, request):
         serializer = MeSerializer(request.user)
         return CustomResponse.success("Fetched current user.", serializer.data)
+class RoleBasedTokenObtainPairView(TokenObtainPairView):
+    serializer_class = RoleBasedTokenObtainPairSerializer
