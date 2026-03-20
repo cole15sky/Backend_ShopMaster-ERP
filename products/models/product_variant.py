@@ -17,7 +17,6 @@ class ProductVariant(models.Model):
         help_text="Optional discounted price"
     )
     cost_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    stock_quantity = models.PositiveIntegerField(default=0)
     barcode = models.CharField(max_length=100, blank=True, null=True)
     qr_code = models.ImageField(upload_to="qr/", blank=True, null=True)
     is_active = models.BooleanField(default=True)
