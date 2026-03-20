@@ -1,6 +1,7 @@
-from django.urls import path
-# from .views import InventoryView
+from rest_framework.routers import DefaultRouter
+from .views import InventoryViewSet
 
-urlpatterns = [
-    # path("", InventoryView.as_view()),
-]
+router = DefaultRouter()
+router.register("", InventoryViewSet, basename="inventory")
+
+urlpatterns = router.urls
