@@ -27,7 +27,6 @@ class ProductVariantSerializer(serializers.ModelSerializer):
             "price",
             "discount_price",
             "cost_price",
-            "stock_quantity",
             "barcode",
             "qr_code",
             "is_active",

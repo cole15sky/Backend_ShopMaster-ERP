@@ -1,5 +1,5 @@
 from django.db import models
-from .product_variant import ProductVariant
+from products.models.product_variant import ProductVariant
 from users.models import User
 from utils.enum import StockChangeType, UnitType
 
