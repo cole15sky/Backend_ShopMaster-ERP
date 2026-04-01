@@ -37,6 +37,9 @@ class ProductSerializer(serializers.ModelSerializer):
     brand = BrandSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
     variants = ProductVariantSerializer(many=True, read_only=True)
+    
+    brand_id = serializers.PrimaryKeyRelatedField(queryset=Brand.objects.all(),source="brand",write_only=True,required=False,allow_null=True,)
+    category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(),source="category",write_only=True,required=False,allow_null=True,)
 
     class Meta:
         model = Product
@@ -44,7 +47,9 @@ class ProductSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "brand",
+            "brand_id",
             "category",
+            "category_id",
             "description",
             "status",
             "slug",
