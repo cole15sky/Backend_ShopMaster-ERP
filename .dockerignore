@@ -1,0 +1,50 @@
+# OS / Editor files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+*.DS_Store
+
+# Virtual environments
+venv/
+env/
+.venv/
+*.env  # prevent leaking secrets (you pass them through env_file)
+
+# Python compiled files
+*.py[cod]
+*$py.class
+
+# Django static & media (your Dockerfile will collect static again)
+staticfiles/
+media/
+
+# Local DB or cache files
+*.sqlite3
+
+# Git
+.git
+.gitignore
+
+# Docker compose files
+docker-compose.yml
+
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+
+# Tests
+
+.pytest_cache/
+
+# Build artifacts
+build/
+temp/
+tmp/
