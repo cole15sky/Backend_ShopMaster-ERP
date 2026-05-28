@@ -1,4 +1,4 @@
-name: Driftsky28 Deployment
+name: Shopmaster ERP Deployment
 
 on:
   push:
@@ -10,10 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Deploy to VPS
+      - name: Deploy Shopmaster ERP to VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -22,24 +19,26 @@ jobs:
           script: |
             set -e
 
+            echo "🚀 Deploying Shopmaster ERP (separate app)..."
+
             IMAGE="ghcr.io/${{ secrets.GHCR_USERNAME }}/backend_shopmaster_erp:latest"
 
-            echo "Pulling latest image..."
+            echo "📦 Pulling latest image..."
             docker pull $IMAGE
 
-            echo "Stopping old container..."
-            docker rm -f driftsky28_web || true
+            echo "🧹 Removing old Shopmaster container only..."
+            docker rm -f shopmaster_erp || true
 
-            echo "Starting new container..."
+            echo "🚀 Starting Shopmaster ERP on NEW PORT 8001..."
             docker run -d \
               --name shopmaster_erp \
-              -p 8000:8000 \
+              -p 8001:8000 \
               --restart unless-stopped \
               --env-file /home/ubuntu/shopmaster/.env \
               $IMAGE
 
-            echo "Cleaning Docker space..."
-            docker container prune -f
-            docker image prune -f
+            echo "⏳ Verifying deployment..."
+            sleep 5
+            docker ps | grep shopmaster_erp
 
-            echo "Cheers mate, Deployment successed!! 🚀"
+            echo "✅ Shopmaster ERP deployed successfully on port 8001 🚀"
