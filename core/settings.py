@@ -164,5 +164,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://shopmaster.driftsky28.com",
 
 ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://shopmasterapi.driftsky28.com",
+    "https://shopmaster.driftsky28.com",
+]
 
 CORS_ALLOW_CREDENTIALS = True
