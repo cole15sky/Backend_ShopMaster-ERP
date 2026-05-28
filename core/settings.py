@@ -15,8 +15,11 @@ SECRET_KEY = 'django-insecure-qp@3frm_o-h9buhqu6p_ii79znxp^(^#w#e3_jp@79!)10-n)^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "shopmasterapi.driftsky28.com",
+    "127.0.0.1",
+    "localhost",
+]
 
 # Application definition
 
