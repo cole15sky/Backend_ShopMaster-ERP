@@ -7,17 +7,21 @@ services:
       dockerfile: Dockerfile
     container_name: shopmaster_erp
     restart: always
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 1 --threads 2 --reload
+
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 2 --threads 4
+
     env_file:
       - .env
+
     volumes:
-      - .:/app
       - shopmaster_erp_media_data:/app/media
       - shopmaster_erp_static:/app/static
+      - shopmaster_erp_db:/app/db
+
     ports:
       - "8000:8000"
 
 volumes:
   shopmaster_erp_media_data:
-  shopmaster_erp_db:
   shopmaster_erp_static:
+  shopmaster_erp_db:
