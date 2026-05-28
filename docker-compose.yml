@@ -17,6 +17,7 @@ services:
     volumes:
       - shopmaster_erp_media_data:/app/media
       - shopmaster_erp_static:/app/static
+      - shopmaster_erp_db:/app/db.sqlite3
 
     ports:
       - "8000:8000"
@@ -24,3 +25,4 @@ services:
 volumes:
   shopmaster_erp_media_data:
   shopmaster_erp_static:
+  shopmaster_erp_db:
