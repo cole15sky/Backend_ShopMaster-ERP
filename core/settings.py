@@ -158,6 +158,11 @@ AUTH_USER_MODEL = "users.User"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://shopmaster.driftsky28.com",
+    "https://shopmasterapi.driftsky28.com",
+    "http://shopmasterapi.driftsky28.com",
+    "http://shopmaster.driftsky28.com",
+
 ]
 
 CORS_ALLOW_CREDENTIALS = True
