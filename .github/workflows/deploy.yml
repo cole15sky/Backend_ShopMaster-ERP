@@ -1,0 +1,45 @@
+name: Driftsky28 Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e
+
+            IMAGE="ghcr.io/${{ secrets.GHCR_USERNAME }}/backend_shopmaster_erp:latest"
+
+            echo "Pulling latest image..."
+            docker pull $IMAGE
+
+            echo "Stopping old container..."
+            docker rm -f driftsky28_web || true
+
+            echo "Starting new container..."
+            docker run -d \
+              --name shopmaster_erp \
+              -p 8000:8000 \
+              --restart unless-stopped \
+              --env-file /home/ubuntu/shopmaster/.env \
+              $IMAGE
+
+            echo "Cleaning Docker space..."
+            docker container prune -f
+            docker image prune -f
+
+            echo "Cheers mate, Deployment successed!! 🚀"
