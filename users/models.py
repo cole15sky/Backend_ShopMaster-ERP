@@ -6,41 +6,41 @@ from .managers import UserManager
 class User(AbstractUser):
 
     username = None
-
     email = models.EmailField(
         unique=True,
     )
-
     role = models.CharField(
         max_length=20,
         choices=UserRole.choices,
         default=UserRole.CUSTOMER,
     )
-
     full_name = models.CharField(
         max_length=255,
         blank=True,
         null=True,
     )
-
     phone = models.CharField(
         max_length=20,
         blank=True,
         null=True,
     )
-
     profile_pic = models.ImageField(
         upload_to="users/profile/",
         blank=True,
         null=True,
     )
-
     position = models.CharField(
         max_length=50,
         blank=True,
         null=True,
     )
-
+    organization = models.ForeignKey(
+        "organizations.Organization",
+        on_delete=models.CASCADE,
+        related_name="users",
+        blank=True,
+        null=True,
+    )
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     
