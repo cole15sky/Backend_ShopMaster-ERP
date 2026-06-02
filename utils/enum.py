@@ -41,3 +41,9 @@ class UnitType(models.TextChoices):
     LITER = "L", "Liter"
     BOX = "BOX", "Box"
     PACK = "PACK", "Pack"
+
+class SubscriptionStatus(models.TextChoices):
+    TRIAL = "TRIAL", "Trial"
+    ACTIVE = "ACTIVE", "Active"
+    EXPIRED = "EXPIRED", "Expired"
+    CANCELLED = "CANCELLED", "Cancelled"
