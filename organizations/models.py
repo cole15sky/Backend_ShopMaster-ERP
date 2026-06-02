@@ -4,7 +4,7 @@ from datetime import timedelta
 
 
 class Organization(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,unique=True)
     owner = models.ForeignKey("users.User", on_delete=models.SET_NULL, related_name="owned_organizations",null=True, blank=True)
     is_trial = models.BooleanField(default=True)
     trial_ends_at = models.DateTimeField()
