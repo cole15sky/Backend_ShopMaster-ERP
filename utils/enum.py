@@ -47,3 +47,9 @@ class SubscriptionStatus(models.TextChoices):
     ACTIVE = "ACTIVE", "Active"
     EXPIRED = "EXPIRED", "Expired"
     CANCELLED = "CANCELLED", "Cancelled"
+
+class StockChangeType(models.TextChoices):
+    STOCK_IN = "IN", "Stock In"
+    STOCK_OUT = "OUT", "Stock Out"
+    ADJUSTMENT = "ADJUSTMENT", "Adjustment"
+    RETURN = "RETURN", "Return"
