@@ -24,6 +24,7 @@ class UserRegistrationView(APIView):
     Endpoint for registering new users (admin only can create other users).
     """
     permission_classes = [IsAdminUser]
+    serializer_class = UserRegistrationSerializer
 
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
@@ -82,6 +83,7 @@ class MeView(APIView):
     Endpoint to get current authenticated user info.
     """
     permission_classes = [IsAuthenticated]
+    serializer_class = MeSerializer
 
     def get(self, request):
         serializer = MeSerializer(request.user)

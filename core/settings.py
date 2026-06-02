@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     'rest_framework_simplejwt',
     'corsheaders',
+    'organizations',
        
 ]
 SITE_ID = 1
