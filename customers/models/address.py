@@ -1,6 +1,6 @@
 from django.db import models
 from .customer import Customer
-from .utils.enum import CustomerAddressType
+from utils.enum import CustomerAddressType
 
 
 class CustomerAddress(models.Model):
