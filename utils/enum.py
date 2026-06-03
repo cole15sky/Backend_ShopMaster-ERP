@@ -5,7 +5,7 @@ class UserRole(models.TextChoices):
 
     ADMIN = "ADMIN", "Admin"
     STAFF = "STAFF", "Staff"
-    CUSTOMER = "CUSTOMER", "Customer"
+    
 class GenderType(models.TextChoices):
     MALE = "Male", "Male"
     FEMALE = "Female", "Female"
