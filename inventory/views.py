@@ -1,31 +1,44 @@
 from django.db.models import F
+from django.db import transaction
+from django.shortcuts import get_object_or_404
+
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.db import transaction
-from django.shortcuts import get_object_or_404
-from rest_framework.generics import ListAPIView
 
+from drf_spectacular.utils import extend_schema
 
 from products.models.product_variant import ProductVariant
 from utils.enum import StockChangeType
+
 from .models.inventory import Inventory
 from .models.stock_history import StockHistory
+
 from .serializers import (
     StockInSerializer,
     StockOutSerializer,
     StockAdjustmentSerializer,
     InventorySerializer,
+    LowStockItemSerializer,
 )
 
 
+@extend_schema(
+    responses=InventorySerializer(many=True),
+    description="List inventory records"
+)
 class InventoryListView(APIView):
     permission_classes = [IsAuthenticated]
     queryset = Inventory.objects.select_related("variant")
     serializer_class = InventorySerializer
 
 
+@extend_schema(
+    request=StockInSerializer,
+    responses={200: dict},
+    description="Add stock to inventory"
+)
 class StockInView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -71,6 +84,11 @@ class StockInView(APIView):
         )
 
 
+@extend_schema(
+    request=StockOutSerializer,
+    responses={200: dict},
+    description="Deduct stock from inventory"
+)
 class StockOutView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -125,6 +143,11 @@ class StockOutView(APIView):
         )
 
 
+@extend_schema(
+    request=StockAdjustmentSerializer,
+    responses={200: dict},
+    description="Adjust inventory stock"
+)
 class StockAdjustmentView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -134,9 +157,14 @@ class StockAdjustmentView(APIView):
         serializer.is_valid(raise_exception=True)
 
         variant = get_object_or_404(
-            ProductVariant, id=serializer.validated_data["variant_id"]
+            ProductVariant,
+            id=serializer.validated_data["variant_id"]
         )
-        inventory = Inventory.objects.select_for_update().get(variant=variant)
+
+        inventory = Inventory.objects.select_for_update().get(
+            variant=variant
+        )
+
         previous_stock = inventory.quantity
 
         inventory.quantity = serializer.validated_data[
@@ -169,6 +197,10 @@ class StockAdjustmentView(APIView):
         )
 
 
+@extend_schema(
+    responses=LowStockItemSerializer(many=True),
+    description="Retrieve products with low stock"
+)
 class LowStockView(APIView):
     permission_classes = [IsAuthenticated]
 

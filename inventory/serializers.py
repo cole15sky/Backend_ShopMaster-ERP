@@ -32,3 +32,15 @@ class StockAdjustmentSerializer(serializers.Serializer):
     new_quantity = serializers.IntegerField(min_value=0)
     unit = serializers.ChoiceField(choices=UnitType.choices)
     note = serializers.CharField(required=False, allow_blank=True)
+
+
+class LowStockItemSerializer(serializers.Serializer):
+    variant_id = serializers.IntegerField()
+    variant = serializers.CharField()
+    stock = serializers.IntegerField()
+    low_stock_alert = serializers.IntegerField()
+
+
+class StockResponseSerializer(serializers.Serializer):
+    message = serializers.CharField()
+    data = serializers.DictField()
