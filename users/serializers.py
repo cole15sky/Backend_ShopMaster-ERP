@@ -22,7 +22,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["email", "full_name", "role", "phone", "position", "password", "password2"]
+        fields = ["email", "full_name", "phone", "position", "password", "password2"]
 
     def validate(self, attrs):
         if attrs["password"] != attrs["password2"]:
