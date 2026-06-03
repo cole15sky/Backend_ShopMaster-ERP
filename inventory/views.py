@@ -18,6 +18,12 @@ from .serializers import (
 )
 
 
+class InventoryListView(APIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Inventory.objects.select_related("variant")
+    serializer_class = InventorySerializer
+
+
 class StockInView(APIView):
     permission_classes = [IsAuthenticated]
 
