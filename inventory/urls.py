@@ -1,7 +1,15 @@
-from rest_framework.routers import DefaultRouter
-from .views import InventoryViewSet
+from django.urls import path
 
-router = DefaultRouter()
-router.register("", InventoryViewSet, basename="inventory")
+from .views import (
+    StockInView,
+    StockOutView,
+    StockAdjustmentView,
+    LowStockView,
+)
 
-urlpatterns = router.urls
+urlpatterns = [
+    path("stock-in/",StockInView.as_view(),name="stock-in",),
+    path("stock-out/",StockOutView.as_view(),name="stock-out",),
+    path("adjust/",StockAdjustmentView.as_view(),name="stock-adjust",),
+    path("low-stock/",LowStockView.as_view(),name="low-stock",),
+]

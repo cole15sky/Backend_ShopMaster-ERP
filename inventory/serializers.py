@@ -1,27 +1,24 @@
 from rest_framework import serializers
-from .models.inventory import Inventory
+from products.models.product_variant import ProductVariant
+from utils.enum import UnitType
 
 
-class InventorySerializer(serializers.ModelSerializer):
+class StockInSerializer(serializers.Serializer):
+    variant_id = serializers.IntegerField()
+    quantity = serializers.IntegerField(min_value=1)
+    unit = serializers.ChoiceField(choices=UnitType.choices)
+    note = serializers.CharField(required=False, allow_blank=True)
 
-    variant_name = serializers.CharField(
-        source="variant.__str__",
-        read_only=True
-    )
 
-    product_name = serializers.CharField(
-        source="variant.product.name",
-        read_only=True
-    )
+class StockOutSerializer(serializers.Serializer):
+    variant_id = serializers.IntegerField()
+    quantity = serializers.IntegerField(min_value=1)
+    unit = serializers.ChoiceField(choices=UnitType.choices)
+    note = serializers.CharField(required=False, allow_blank=True)
 
-    class Meta:
-        model = Inventory
-        fields = [
-            "id",
-            "variant",
-            "variant_name",
-            "product_name",
-            "quantity",
-            "low_stock_alert",
-            "updated_at",
-        ]
+
+class StockAdjustmentSerializer(serializers.Serializer):
+    variant_id = serializers.IntegerField()
+    new_quantity = serializers.IntegerField(min_value=0)
+    unit = serializers.ChoiceField(choices=UnitType.choices)
+    note = serializers.CharField(required=False, allow_blank=True)
