@@ -43,6 +43,8 @@ jobs:
             set -e
 
             IMAGE="ghcr.io/${{ secrets.GHCR_USERNAME }}/backend_shopmaster_erp:latest"
+            echo "🔐 Logging into GHCR..."
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
 
             echo "📦 Pulling image..."
             docker pull $IMAGE
