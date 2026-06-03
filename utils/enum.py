@@ -53,3 +53,8 @@ class StockChangeType(models.TextChoices):
     STOCK_OUT = "OUT", "Stock Out"
     ADJUSTMENT = "ADJUSTMENT", "Adjustment"
     RETURN = "RETURN", "Return"
+
+class CustomerAddressType(models.TextChoices):
+    HOME = "HOME", "Home"
+    OFFICE = "OFFICE", "Office"
+    OTHER = "OTHER", "Other"
