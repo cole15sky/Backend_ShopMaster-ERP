@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from rest_framework.generics import ListAPIView
 
 
 from products.models.product_variant import ProductVariant
@@ -15,6 +16,7 @@ from .serializers import (
     StockInSerializer,
     StockOutSerializer,
     StockAdjustmentSerializer,
+    InventorySerializer,
 )
 
 

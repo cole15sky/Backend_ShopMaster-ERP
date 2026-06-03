@@ -5,6 +5,7 @@ from .views import (
     StockOutView,
     StockAdjustmentView,
     LowStockView,
+    InventoryListView,
 )
 
 urlpatterns = [
