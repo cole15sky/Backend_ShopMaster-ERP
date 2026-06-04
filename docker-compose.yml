@@ -18,10 +18,7 @@ services:
       - .:/app
       - shopmaster_erp_media_data:/app/media
       - shopmaster_erp_static:/app/static
+      - shopmaster_erp_data:/app/data
 
     ports:
       - "8000:8000"
-
-volumes:
-  shopmaster_erp_media_data:
-  shopmaster_erp_static:
