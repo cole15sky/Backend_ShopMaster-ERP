@@ -22,3 +22,8 @@ services:
 
     ports:
       - "8000:8000"
+      
+volumes:
+  shopmaster_erp_media_data:
+  shopmaster_erp_static:
+  shopmaster_erp_data:
