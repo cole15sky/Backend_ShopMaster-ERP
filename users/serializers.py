@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from utils.enum import UserRole
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,6 +12,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "email", "full_name", "role", "phone", "position", "profile_pic", "is_active"]
+    
+    def create(self, validated_data):
+        validated_data.pop("password2")
+        password = validated_data.pop("password")
+
+        return Usser.objects.create_user(**validated_data, password=password)
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -67,3 +74,75 @@ class RoleBasedTokenObtainPairSerializer(TokenObtainPairSerializer):
             "role": user.role,
         })
         return data
+
+
+class CustomerRegistrationSerializer(serializers.ModelSerializer):
+
+    password = serializers.CharField(write_only=True,validators=[validate_password])
+    password2 = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "full_name",
+            "phone",
+            "password",
+            "password2",
+            "profile_pic"
+        )
+
+    def validate(self, attrs):
+
+        if attrs["password"] != attrs["password2"]:
+            raise serializers.ValidationError(
+                {"password": "Passwords do not match."}
+            )
+        return attrs
+
+    def create(self, validated_data):
+
+        validated_data.pop("password2")
+        password = validated_data.pop("password")
+
+        user = User.objects.create_user(
+            role=UserRole.CUSTOMER,
+            password=password,
+            **validated_data
+        )
+
+        return user
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError(
+            "Email already exists."
+        )
+        return value
+        
+
+class CustomerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "email",
+            "full_name",
+            "phone",
+            "profile_pic",
+            "is_active",
+            "date_joined",
+        )
+
+class CustomerUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = (
+            "full_name",
+            "phone",
+            "profile_pic",
+        ) 
+
+
