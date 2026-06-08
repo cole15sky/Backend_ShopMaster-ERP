@@ -104,7 +104,7 @@ class CustomerRegistrationSerializer(serializers.ModelSerializer):
         )
         return user
 
-class CustomerRegistrationSerializer(serializers.ModelSerializer):
+class CustomerSerializer(serializers.ModelSerializer):
     """
     Customer registration serializer.
     """

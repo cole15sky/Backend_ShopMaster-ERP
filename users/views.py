@@ -5,14 +5,22 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import BasePermission
 
 from utils.enum import UserRole
 from .models import User
 from .serializers import UserSerializer, UserRegistrationSerializer, CustomerRegistrationSerializer, CustomerUpdateSerializer, RoleBasedTokenObtainPairSerializer, MeSerializer
+from customers.serializers import CustomerSerializer
 
 
+class IsAdminRole(BasePermission):
+    def has_permission(self, request, view):
+        return (
+            request.user.is_authenticated and
+            request.user.role == "ADMIN"
+        )
+        
 # RESPONSE WRAPPER
-
 class CustomResponse:
 
     @staticmethod
@@ -33,7 +41,7 @@ class CustomResponse:
 # USER REGISTER (STAFF / ADMIN)
 
 class UserRegistrationView(APIView):
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminRole]
     serializer_class = UserRegistrationSerializer
 
     def post(self, request):
