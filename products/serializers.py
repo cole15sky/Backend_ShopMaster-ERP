@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Brand, Category, Product, ProductVariant
+from .models import Brand, Category, Product, ProductVariant, ProductImage
 from utils.enum import SizeType, GenderType, ProductStatus
 
 class BrandSerializer(serializers.ModelSerializer):
@@ -33,11 +33,23 @@ class ProductVariantSerializer(serializers.ModelSerializer):
             "is_active",
         ]
 
+        
+class ProductImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProductImage
+        fields = (
+            "id",
+            "product",
+            "image",
+            "is_primary",   
+        )
+
 class ProductSerializer(serializers.ModelSerializer):
     brand = BrandSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
     variants = ProductVariantSerializer(many=True, read_only=True)
-    
+    images = ProductImageSerializer(many=True, read_only=True)
     brand_id = serializers.PrimaryKeyRelatedField(queryset=Brand.objects.all(),source="brand",write_only=True,required=False,allow_null=True,)
     category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(),source="category",write_only=True,required=False,allow_null=True,)
 
@@ -56,6 +68,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "variants",
+            "images",
         ]
         
 class StockHistorySerializer(serializers.Serializer):
