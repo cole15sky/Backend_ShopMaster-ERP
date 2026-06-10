@@ -85,14 +85,11 @@ class CustomerRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-        fields = [
             "email",
             "full_name",
             "phone",
             "password",
             "password2",
-            "profile_pic",
-        ]
             "profile_pic",
         ]
 
@@ -130,7 +127,6 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-        fields = [
             "id",
             "email",
             "full_name",
@@ -149,7 +145,6 @@ class CustomerUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = [
         fields = [
             "full_name",
             "phone",

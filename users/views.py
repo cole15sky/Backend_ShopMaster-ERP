@@ -2,16 +2,11 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-<<<<<<< Updated upstream
 from rest_framework.viewsets import ModelViewSet
-=======
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
->>>>>>> Stashed changes
 from rest_framework.decorators import action
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import BasePermission
 
-<<<<<<< Updated upstream
 from utils.enum import UserRole
 from .models import User
 from .serializers import UserSerializer, UserRegistrationSerializer, CustomerRegistrationSerializer, CustomerUpdateSerializer, RoleBasedTokenObtainPairSerializer, MeSerializer
@@ -26,57 +21,33 @@ class IsAdminRole(BasePermission):
         )
         
 # RESPONSE WRAPPER
-=======
-from drf_spectacular.utils import extend_schema
-
-from .models import User
-from utils.enum import UserRole
-from .serializers import (
-    UserSerializer,
-    UserRegistrationSerializer,
-    CustomerSerializer,
-    CustomerUpdateSerializer,
-    CustomerRegistrationSerializer,
-    MeSerializer,
-    RoleBasedTokenObtainPairSerializer,
-)
-
-
-# ----------------------------
-# RESPONSE WRAPPER
-# ----------------------------
->>>>>>> Stashed changes
 class CustomResponse:
 
     @staticmethod
     def success(message, data=None, status_code=status.HTTP_200_OK):
-        return Response({"message": message, "data": data}, status=status_code)
+        return Response(
+            {"message": message, "data": data},
+            status=status_code
+        )
 
     @staticmethod
     def error(message, status_code=status.HTTP_400_BAD_REQUEST):
-        return Response({"message": message}, status=status_code)
+        return Response(
+            {"message": message},
+            status=status_code
+        )
 
 
-<<<<<<< Updated upstream
 # USER REGISTER (STAFF / ADMIN)
 
 class UserRegistrationView(APIView):
     permission_classes = [IsAdminRole]
     serializer_class = UserRegistrationSerializer
-=======
-# ----------------------------
-# USER MANAGEMENT (STAFF/ADMIN)
-# ----------------------------
-
-class UserRegistrationView(APIView):
-    permission_classes = [IsAdminUser]
->>>>>>> Stashed changes
 
     def post(self, request):
 
         serializer = UserRegistrationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-<<<<<<< Updated upstream
 
         user = serializer.save()
 
@@ -118,41 +89,10 @@ class UserViewSet(ModelViewSet):
 
     serializer_class = UserSerializer
 
-=======
-        user = serializer.save()
-
-        return CustomResponse.success(
-            "User created successfully",
-            UserSerializer(user).data,
-            status.HTTP_201_CREATED
-        )
-
-
-class UserViewSet(GenericViewSet):
-    permission_classes = [IsAuthenticated]
-    serializer_class = UserSerializer
-
-    def get_queryset(self):
-        return User.objects.exclude(role=UserRole.CUSTOMER).filter(is_active=True)
-
-    def list(self, request):
-        role = request.query_params.get("role")
-
-        qs = self.get_queryset()
-        if role:
-            qs = qs.filter(role=role)
-
-        return CustomResponse.success(
-            "Users fetched successfully",
-            self.get_serializer(qs, many=True).data
-        )
-
->>>>>>> Stashed changes
     @action(detail=True, methods=["delete"])
     def soft_delete(self, request, pk=None):
 
         user = self.get_object()
-<<<<<<< Updated upstream
 
         if not user.is_active:
             return CustomResponse.error("User already inactive.")
@@ -254,97 +194,6 @@ class MeView(APIView):
 
     def get(self, request):
         return CustomResponse.success(
-=======
-        user.is_active = False
-        user.save()
-
-        return CustomResponse.success("User soft deleted")
-
-    @action(detail=False, methods=["get"])
-    def soft_deleted(self, request):
-        qs = User.objects.exclude(role=UserRole.CUSTOMER).filter(is_active=False)
-
-        return CustomResponse.success(
-            "Soft deleted users",
-            self.get_serializer(qs, many=True).data
-        )
-
-    @action(detail=True, methods=["patch"])
-    def recover(self, request, pk=None):
-        user = self.get_object()
-        user.is_active = True
-        user.save()
-
-        return CustomResponse.success("User recovered")
-
-
-# ----------------------------
-# CUSTOMER MANAGEMENT
-# ----------------------------
-
-class CustomerViewSet(ModelViewSet):
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return User.objects.filter(role=UserRole.CUSTOMER)
-
-    def get_serializer_class(self):
-        if self.action in ["update", "partial_update"]:
-            return CustomerUpdateSerializer
-        return CustomerSerializer
-
-    def list(self, request):
-        qs = self.get_queryset().filter(is_active=True)
-
-        return CustomResponse.success(
-            "Customers fetched",
-            self.get_serializer(qs, many=True).data
-        )
-
-    def create(self, request):
-        serializer = CustomerRegistrationSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        customer = serializer.save()
-
-        return CustomResponse.success(
-            "Customer created",
-            CustomerSerializer(customer).data,
-            status.HTTP_201_CREATED
-        )
-
-    @action(detail=True, methods=["delete"])
-    def soft_delete(self, request, pk=None):
-        customer = self.get_object()
-        customer.is_active = False
-        customer.save()
-        return CustomResponse.success("Customer deactivated")
-
-    @action(detail=False, methods=["get"])
-    def soft_deleted(self, request):
-        qs = User.objects.filter(role=UserRole.CUSTOMER, is_active=False)
-        return CustomResponse.success(
-            "Soft deleted customers",
-            CustomerSerializer(qs, many=True).data
-        )
-
-    @action(detail=True, methods=["patch"])
-    def recover(self, request, pk=None):
-        customer = self.get_object()
-        customer.is_active = True
-        customer.save()
-        return CustomResponse.success("Customer recovered")
-
-
-# ----------------------------
-# AUTH
-# ----------------------------
-
-class MeView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        return CustomResponse.success(
->>>>>>> Stashed changes
             "Current user",
             MeSerializer(request.user).data
         )
