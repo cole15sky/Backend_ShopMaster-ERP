@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 from inventory.models.stock_history import StockHistory
 from .models.product_variant import ProductVariant
-from .models import Brand, Category, Product, ProductVariant
-from .serializers import BrandSerializer, CategorySerializer, ProductSerializer, ProductVariantSerializer, StockHistorySerializer
+from .models import Brand, Category, Product, ProductVariant, ProductImage
+from .serializers import BrandSerializer, CategorySerializer, ProductSerializer, ProductVariantSerializer, StockHistorySerializer, ProductImageSerializer
+from rest_framework.permissions import AllowAny
 
 class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.all()
@@ -15,9 +16,14 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+class ProductImageViewSet(viewsets.ModelViewSet):
+    queryset = ProductImage.objects.all()
+    serializer_class = ProductImageSerializer
+
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.prefetch_related("variants","images",)
     serializer_class = ProductSerializer
+    permission_classes = [AllowAny]
 
     @action(detail=True, methods=["get"])
     def variants(self, request, pk=None):

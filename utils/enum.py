@@ -23,6 +23,7 @@ class SizeType(models.TextChoices):
 class ProductStatus(models.TextChoices):
     ACTIVE = "Active", "Active"
     INACTIVE = "Inactive", "Inactive"
+    DRAFT = "Draft", "Draft"
     
 class StockChangeType(models.TextChoices):
     """
