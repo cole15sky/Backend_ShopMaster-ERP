@@ -60,3 +60,10 @@ class CustomerAddressType(models.TextChoices):
     HOME = "HOME", "Home"
     OFFICE = "OFFICE", "Office"
     OTHER = "OTHER", "Other"
+
+class OrderStatus(models.TextChoices):
+    PENDING = "PENDING", "Pending"
+    PROCESSING = "PROCESSING", "Processing"
+    SHIPPED = "SHIPPED", "Shipped"
+    DELIVERED = "DELIVERED", "Delivered"
+    CANCELLED = "CANCELLED", "Cancelled"
